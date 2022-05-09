@@ -31,17 +31,39 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "styles/bootstrap4/bootstrap.min.css",
+              "plugins/font-awesome-4.7.0/css/font-awesome.min.css",
+              "styles/contact.css",
+              "styles/contact_responsive.css",
+              "plugins/fontawesome-free/css/all.min.css",
+              "plugins/fullcalendar/main.css",
+              "dist/css/adminlte.min.css",
+              "./node_modules/@mobiscroll/angular/dist/css/mobiscroll.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "js/jquery-3.2.1.min.js",
+              "styles/bootstrap4/popper.js",
+              "styles/bootstrap4/bootstrap.min.js",
+              "plugins/easing/easing.js",
+              "plugins/parallax-js-master/parallax.min.js",
+              "js/contact.js",
+              "plugins/jquery/jquery.min.js",
+              "plugins/bootstrap/js/bootstrap.bundle.min.js",
+              "plugins/jquery-ui/jquery-ui.min.js",
+              "dist/js/adminlte.min.js",
+              "plugins/moment/moment.min.js",
+              "plugins/fullcalendar/main.js",
+              "dist/js/demo.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -99,7 +121,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "styles/bootstrap4/bootstrap.min.css",
+              "plugins/font-awesome-4.7.0/css/font-awesome.min.css",
+              "styles/courses.css",
+              "styles/courses_responsive.css"
             ],
             "scripts": []
           }

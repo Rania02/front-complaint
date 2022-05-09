@@ -1,0 +1,81 @@
+<mbsc-eventcalendar [data]="myEvents" [options]="calendarOptions" [(selectedDate)]="calendarSelectedDate">
+</mbsc-eventcalendar>
+<mbsc-popup [options]="popupOptions" [anchor]="popupAnchor" [buttons]="popupButtons" [headerText]="popupHeaderText" #popup>
+    <div class="mbsc-form-group">
+        <mbsc-input label="Title" [(ngModel)]="popupEventTitle"></mbsc-input>
+        <mbsc-textarea label="Description" [(ngModel)]="popupEventDescription"></mbsc-textarea>
+    </div>
+    <div class="mbsc-form-group">
+        <mbsc-switch label="All-day" [(ngModel)]="popupEventAllDay"></mbsc-switch>
+        <mbsc-datepicker [(ngModel)]="popupEventDates" [options]="datePickerOptions" [controls]="popupEventAllDay ? datePickerControls : datetimePickerControls" [responsive]="popupEventAllDay ? datePickerResponsive : datetimePickerResponsive" [startInput]="startInput"
+            [endInput]="endInput"></mbsc-datepicker>
+        <mbsc-input #startInput label="Starts"></mbsc-input>
+        <mbsc-input #endInput label="Ends"></mbsc-input>
+        <mbsc-select [(ngModel)]="selectedRepeat" [data]="repeatData" label="Repeats" [responsive]="selectResponsive">
+        </mbsc-select>
+        <div *ngIf="selectedRepeat === 'custom' || selectedRepeat === 'custom-value'">
+            <mbsc-segmented-group [(ngModel)]="repeatType">
+                <mbsc-segmented value="daily">Daily</mbsc-segmented>
+                <mbsc-segmented value="weekly">Weekly</mbsc-segmented>
+                <mbsc-segmented value="monthly">Monthly</mbsc-segmented>
+                <mbsc-segmented value="yearly">Yearly</mbsc-segmented>
+            </mbsc-segmented-group>
+            <div class="custom-repeat-settings">
+                Repeat every
+                <mbsc-input class="custom-repeat-input" [(ngModel)]="repeatNr" inputStyle="outline"></mbsc-input>
+                <span *ngIf="repeatType === 'daily'">days</span>
+                <span *ngIf="repeatType === 'weekly'">weeks</span>
+                <span *ngIf="repeatType === 'monthly'" class="custom-repeat-text custom-repeat-monthly">
+          months on day
+          <mbsc-select class="custom-repeat-input custom-repeat-select-nr" [(ngModel)]="monthlyDay" [data]="monthlyDays"
+            inputStyle="outline"></mbsc-select>
+        </span>
+                <span *ngIf="repeatType === 'yearly'" class="custom-repeat-text custom-repeat-monthly">
+          years on
+          <mbsc-select class="custom-repeat-input custom-repeat-select-month" [(ngModel)]="selectedMonth"
+            [data]="months" inputStyle="outline" (onChange)="monthChange($event)"></mbsc-select>
+          <mbsc-select class="custom-repeat-input custom-repeat-select-nr" [(ngModel)]="yearlyDay" [data]="yearlyDays"
+            inputStyle="outline"></mbsc-select>
+        </span>
+
+                <p *ngIf="repeatType === 'daily'" class="custom-repeat-desc">The event will be repeated every day or every x days, depending on the value</p>
+                <p *ngIf="repeatType === 'weekly'" class="custom-repeat-desc">The event will be repeated every x weeks on specific weekdays</p>
+                <p *ngIf="repeatType === 'monthly'" class="custom-repeat-desc">The event will be repeated every x month on specific day of the month</p>
+                <p *ngIf="repeatType === 'yearly'" class="custom-repeat-desc">The event will be repeated every x years on specific day of a specific month</p>
+
+                <div *ngIf="repeatType === 'weekly'" class="custom-repeat-checkbox-cont">
+                    <mbsc-checkbox *ngFor="let day of weekDays" label={{day.name}} [(ngModel)]="day.checked"></mbsc-checkbox>
+                </div>
+
+                <div>Stop condition</div>
+                <div class="custom-condition-cont">
+                    <mbsc-radio-group [(ngModel)]="condition">
+                        <mbsc-radio label="Never stop" description="The event will repeat indefinitely" value="never">
+                        </mbsc-radio>
+                        <mbsc-radio value="until">
+                            Run until a specific date
+                            <mbsc-datepicker [controls]="['calendar']" display="anchored" [touchUi]="false" dateFormat="YYYY-MM-DD" returnFormat="iso8601" [(ngModel)]="untilDate" (click)="condition = 'until'" class="custom-repeat-input custom-specific-date" inputStyle="outline"></mbsc-datepicker>
+                            <span class="mbsc-description">The event will run until it reaches a specific date</span>
+                        </mbsc-radio>
+                        <mbsc-radio value="count">
+                            Run until it reaches
+                            <mbsc-input class="custom-repeat-input" inputStyle="outline" [(ngModel)]="occurrences" (click)="condition = 'count'"></mbsc-input>
+                            occurrences
+                            <span class="mbsc-description">The event will repeat until it reaches a certain amount of
+                occurrences</span>
+                        </mbsc-radio>
+                    </mbsc-radio-group>
+                </div>
+
+            </div>
+        </div>
+        <mbsc-segmented-group [(ngModel)]="popupEventStatus">
+            <mbsc-segmented value="busy">Show as busy</mbsc-segmented>
+            <mbsc-segmented value="free">Show as free</mbsc-segmented>
+        </mbsc-segmented-group>
+        <div *ngIf="isEdit" class="mbsc-button-group">
+            <mbsc-button class="mbsc-button-block" color="danger" variant="outline" (click)="onDeleteClick()">Delete event
+            </mbsc-button>
+        </div>
+    </div>
+</mbsc-popup>
